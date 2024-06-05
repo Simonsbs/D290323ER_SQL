@@ -23,6 +23,12 @@ GROUP BY
 HAVING
 	COUNT(*) > 1
 
+
+SELECT
+	COUNT(*)
+FROM
+	[Orders]
+
 /*
 	Group the Customer by Country and City and add a count column
 	Then filter the countries only to the USA
