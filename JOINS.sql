@@ -52,3 +52,7 @@ SELECT
 FROM
 	[Users] FULL JOIN [Departments]
 		ON [Users].[DepartmentID] = [Departments].[ID]
+
+
+
+
