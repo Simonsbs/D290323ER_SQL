@@ -27,6 +27,7 @@ FROM
 
 /*
 
-Create a function to calculate the total order amount including a discount
+Create a function to calculate the total order value 
+amount including a discount in a specific category
 
 */
