@@ -18,3 +18,13 @@ internal class Program
         }
 	}
 }
+
+
+//    * HW
+//* Create a table called 'Users' with the following columns: ID, Name, Email, Password
+//* using a console application, do the following:
+//* 1. Create a new user
+//* 2. Update a user
+//* 3. Delete a user
+//* 4. Get all users
+//* 5. Get a user by ID
