@@ -22,8 +22,12 @@ internal class Program {
 	}
 
 	public static void CreateUser(SqlConnection conn, string name, string email, string password) {
-		string cmdText = $"INSERT INTO [Users] ([Name], [Email], [Password]) VALUES ('{name}', '{email}', '{password}')";
+		string cmdText = "INSERT INTO [Users] ([Name], [Email], [Password]) VALUES (@Name, @Email, @Password)";
 		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
+			cmd.Parameters.AddWithValue("@Name", name);
+			cmd.Parameters.AddWithValue("@Email", email);
+			cmd.Parameters.AddWithValue("@Password", password);
+
 			cmd.ExecuteNonQuery();
 		}
 	}
