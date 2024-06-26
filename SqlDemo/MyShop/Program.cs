@@ -19,10 +19,20 @@ internal class Program {
 
 		using (SqlConnection conn = new SqlConnection("Server=.\\SQL2022;Database=MyShop;Trusted_Connection=True;TrustServerCertificate=true;")) {
 			conn.Open();
-			//CreateUser(conn, name, email, password);
-			PrintUsers(GetAlUsers(conn));
+			CreateUser(conn, name, email, password);
+			PrintUsers(GetAllUsers(conn));
 			UpdateUser(conn,1, "Updated", "updated@updated.com", "1234");
-			PrintUsers(GetAlUsers(conn));
+			PrintUsers(GetAllUsers(conn));
+			Console.WriteLine("Single user: " + GetUser(conn, 2));
+			DeleteUser(conn, 2);
+			PrintUsers(GetAllUsers(conn));
+
+			if (GetUser(conn, email, password) != null) {
+				Console.WriteLine("User logged in");
+			} else {
+				Console.WriteLine("Wrong username/password");
+			}
+
 		}
 	}
 
@@ -32,7 +42,7 @@ internal class Program {
 		}
 	}
 
-	private static List<User> GetAlUsers(SqlConnection conn) {
+	private static List<User> GetAllUsers(SqlConnection conn) {
 		List<User> users = new List<User>();
 		string cmdText = "SELECT * FROM [Users];";
 		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
@@ -44,6 +54,37 @@ internal class Program {
 			}
 		}
 		return users;
+	}
+
+	private static User? GetUser(SqlConnection conn, int id) {
+		string cmdText = "SELECT * FROM [Users] WHERE [ID] = @ID;";
+		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
+			cmd.Parameters.AddWithValue("@ID", id);
+			using (SqlDataReader reader = cmd.ExecuteReader()) {
+				while (reader.Read()) {
+					User newUser = User.FromReader(reader);
+					return newUser;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private static User? GetUser(SqlConnection conn, string email, string password) {
+		string cmdText = "SELECT * FROM [Users] WHERE [Email] = @Email AND [Password] = @Password;";
+		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
+			cmd.Parameters.AddWithValue("@Email", email);
+			cmd.Parameters.AddWithValue("@Password", password);
+			using (SqlDataReader reader = cmd.ExecuteReader()) {
+				while (reader.Read()) {
+					User newUser = User.FromReader(reader);
+					return newUser;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public static void CreateUser(SqlConnection conn, string name, string email, string password) {
@@ -66,6 +107,15 @@ internal class Program {
 			cmd.Parameters.AddWithValue("@Password", password);
 
 
+			cmd.ExecuteNonQuery();
+		}
+	}
+	
+	public static void DeleteUser(SqlConnection conn, int id) {
+		string cmdText = "DELETE FROM [Users] WHERE [ID] = @ID";
+		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
+			cmd.Parameters.AddWithValue("@ID", id);
+			
 			cmd.ExecuteNonQuery();
 		}
 	}
