@@ -146,3 +146,13 @@ public class User {
 		return user;
 	}
 }
+
+
+/*
+ * HW
+ * Build a WPF appllication
+ * the application needs to have a Login page, that checks if the user exists
+ * and also a signup button that allows a new user to register to the applpication.
+ * once the user is logged in he needs to see a list of all the users with CRUD opperatrions
+ * 
+ */
