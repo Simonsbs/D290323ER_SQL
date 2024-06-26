@@ -21,7 +21,8 @@ internal class Program {
 			conn.Open();
 			//CreateUser(conn, name, email, password);
 			PrintUsers(GetAlUsers(conn));
-			
+			UpdateUser(conn,1, "Updated", "updated@updated.com", "1234");
+			PrintUsers(GetAlUsers(conn));
 		}
 	}
 
@@ -51,6 +52,19 @@ internal class Program {
 			cmd.Parameters.AddWithValue("@Name", name);
 			cmd.Parameters.AddWithValue("@Email", email);
 			cmd.Parameters.AddWithValue("@Password", password);
+
+			cmd.ExecuteNonQuery();
+		}
+	}
+
+	public static void UpdateUser(SqlConnection conn, int id, string name, string email, string password) {
+		string cmdText = "UPDATE [Users] SET [Name] = @Name, [Email] = @Email, [Password] = @Password WHERE [ID] = @ID";
+		using (SqlCommand cmd = new SqlCommand(cmdText, conn)) {
+			cmd.Parameters.AddWithValue("@ID", id);
+			cmd.Parameters.AddWithValue("@Name", name);
+			cmd.Parameters.AddWithValue("@Email", email);
+			cmd.Parameters.AddWithValue("@Password", password);
+
 
 			cmd.ExecuteNonQuery();
 		}
